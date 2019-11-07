@@ -10,7 +10,7 @@ class Crossword extends React.Component {
   }
 
   componentDidMount(){
-    fetch(`https://raw.githubusercontent.com/doshea/nyt_crosswords/master/2017/04/12.json`)
+    fetch(`https://raw.githubusercontent.com/doshea/nyt_crosswords/master/2015/05/12.json`)
       .then(resp => resp.json())
       .then(data => this.createGrid(data))
   }
@@ -20,9 +20,9 @@ class Crossword extends React.Component {
     const gridNums = data.gridnums 
 
     for (let i = 0; i < gridLetters.length; i++) {
-      let newGrid
-      let newBox
-      
+      let newGrid;
+      let newBox;
+
       if (gridLetters[i] === '.') {
         newBox = {id: i, letter: null}
         newGrid = [...this.state.grid, newBox]
@@ -34,15 +34,19 @@ class Crossword extends React.Component {
           newBox = {id: i, letter: gridLetters[i]}
           newGrid = [...this.state.grid, newBox]
         }
-        this.setState({grid : newGrid})
       }
+      this.setState({grid : newGrid})
     }
+  }
+
+  handleCorrectLetter = (event, id, letter) => {
+    console.log(event, id, letter)
   }
 
   render() {
     return (
       <div className="crossword">
-        <Boxes grid={this.state.grid} />
+        <Boxes grid={this.state.grid} handleCorrectLetter={this.handleCorrectLetter}/>
       </div>
     )
   }
