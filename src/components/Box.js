@@ -1,6 +1,11 @@
 import React from 'react';
 
 class Box extends React.Component {
+
+  handleChange = () => {
+
+  }
+
   render() {
     if (!this.props.letter) {
       return (
@@ -11,12 +16,12 @@ class Box extends React.Component {
       return (
         <div className="box-wrapper">
           <label className="box-label box-label--number">{this.props.number}</label>
-          <input type="text" onChange={console.log("here")} maxLength="1" className="box" />
+          <input type="text" onChange={this.handleChange} maxLength="1" className="box" />
         </div>
       )
     }
     return (
-      <input type="text" className="box-text" onChange={console.log("here")} maxLength="1" className="box" />
+      <input type="text" className="box-text" onChange={this.handleChange} maxLength="1" className="box" />
     )
   }
 }

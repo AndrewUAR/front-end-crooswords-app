@@ -10,9 +10,28 @@ class Crossword extends React.Component {
   }
 
   componentDidMount(){
-    fetch(`https://raw.githubusercontent.com/doshea/nyt_crosswords/master/2017/04/12.json`)
+    let date = this.randomDate()
+    console.log(date);
+    fetch(`https://raw.githubusercontent.com/doshea/nyt_crosswords/master/${date}.json`)
       .then(resp => resp.json())
       .then(data => this.createGrid(data))
+  }
+
+  randomDate() {
+    let start = new Date("1979-01-01");
+    let end = new Date("2014-12-31");
+    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2){
+      month = '0' + month;
+    }
+    if (day.length < 2){
+      day = '0' + day;
+    }
+    return [year, month, day].join('/');
   }
 
   createGrid = (data) => {
