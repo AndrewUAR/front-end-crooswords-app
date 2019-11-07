@@ -5,7 +5,8 @@ class Crossword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: []
+      grid: [],
+      corrects: 0
     }
   }
 
@@ -40,14 +41,6 @@ class Crossword extends React.Component {
     }
   }
 
-  handleChange = (e, letter) => {
-    console.log(e.target.value.toLowerCase())
-    console.log(letter.toLowerCase())
-    if(e.target.value.toLowerCase() == letter.toLowerCase()){
-      
-    }
-  }
-
   createGrid = (data) => {
     const gridLetters = data.grid
     const gridNums = data.gridnums 
@@ -57,14 +50,14 @@ class Crossword extends React.Component {
       let newBox;
 
       if (gridLetters[i] === '.') {
-        newBox = {id: i, letter: null}
+        newBox = {id: i, letter: null, solved: false}
         newGrid = [...this.state.grid, newBox]
       } else {
         if (gridNums[i] > 0) {
-          newBox = {id: i, letter: gridLetters[i], number: gridNums[i]}
+          newBox = {id: i, letter: gridLetters[i], number: gridNums[i], solved: false}
           newGrid = [...this.state.grid, newBox]
         } else {
-          newBox = {id: i, letter: gridLetters[i]}
+          newBox = {id: i, letter: gridLetters[i], solved: false}
           newGrid = [...this.state.grid, newBox]
         }
       }
@@ -74,10 +67,38 @@ class Crossword extends React.Component {
 
   handleCorrectLetter = (event, id, letter) => {
     console.log(event, id, letter)
+    if(event.target.value.toLowerCase() == letter.toLowerCase()){
+      const updatedGrid = this.state.grid.map(box => {
+        if(box.id == id){
+          return {
+            ...box, solved: true
+          }
+        } else {
+          return box
+        }
+      })
+      this.setState({grid:updatedGrid})
+      console.log(this.state.grid)
+    } else {
+      const updatedGrid = this.state.grid.map(box => {
+        if(box.id == id){
+          return {
+            ...box, solved: false
+          }
+        } else {
+          return box
+        }
+      })
+      this.setState({grid:updatedGrid})
+      console.log(this.state.grid)
+    }
+  }
+
+  handleCorrectLetter = (event, id, letter) => {
+    console.log(event, id, letter)
   }
 
   render() {
-    // console.log(this.state)
     return (
       <div className="crossword">
         <Boxes grid={this.state.grid} handleCorrectLetter={this.handleCorrectLetter}/>
