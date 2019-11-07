@@ -5,7 +5,7 @@ class Boxes extends React.Component {
    render() {
      return (
       <div className="boxes">
-         { this.props.grid.map(box => <Box key={box.id} letter={box.letter} number={box.number} />)}
+         { this.props.grid.map(box => <Box key={box.id} letter={box.letter} number={box.number} handleChange={this.props.handleChange}/>)}
        </div>
      )
    }
