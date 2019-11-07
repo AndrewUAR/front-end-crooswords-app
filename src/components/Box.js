@@ -13,12 +13,12 @@ class Box extends React.Component {
       return (
         <div className="box-wrapper">
           <label className="box-label box-label--number">{this.props.number}</label>
-          <input type="text" onChange={e => this.props.handleChange(e, this.props.letter)} maxLength="1" className="box" />
+          <input type="text" onChange={(event) => this.props.handleCorrectLetter(event.target.value, this.props.id, this.props.letter)} maxLength="1" className="box" />
         </div>
       )
     }
     return (
-      <input type="text" className="box-text" onChange={e => this.props.handleChange(e, this.props.letter)} maxLength="1" className="box" />
+      <input type="text" className="box-text" onChange={(event) => this.props.handleCorrectLetter(event.target.value, this.props.id, this.props.letter)} maxLength="1" className="box" />
     )
   }
 }
