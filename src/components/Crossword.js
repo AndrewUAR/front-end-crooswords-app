@@ -5,7 +5,8 @@ class Crossword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: []
+      grid: [],
+      corrects: 0
     }
   }
 
@@ -40,42 +41,63 @@ class Crossword extends React.Component {
     }
   }
 
-  handleChange = (e, letter) => {
-    console.log(e.target.value.toLowerCase())
-    console.log(letter.toLowerCase())
-    if(e.target.value.toLowerCase() == letter.toLowerCase()){
-      
-    }
-  }
-
   createGrid = (data) => {
     const gridLetters = data.grid
     const gridNums = data.gridnums 
 
     for (let i = 0; i < gridLetters.length; i++) {
+      let newGrid;
+      let newBox;
+
       if (gridLetters[i] === '.') {
-        let newBox = {id: i, letter: null}
-        let newGrid = [...this.state.grid, newBox]
-        this.setState({grid : newGrid})
+        newBox = {id: i, letter: null, solved: false}
+        newGrid = [...this.state.grid, newBox]
       } else {
         if (gridNums[i] > 0) {
-          let newBox = {id: i, letter: gridLetters[i], number: gridNums[i]}
-          let newGrid = [...this.state.grid, newBox]
-          this.setState({grid : newGrid})
+          newBox = {id: i, letter: gridLetters[i], number: gridNums[i], solved: false}
+          newGrid = [...this.state.grid, newBox]
         } else {
-          let newBox = {id: i, letter: gridLetters[i]}
-          let newGrid = [...this.state.grid, newBox]
-          this.setState({grid : newGrid})
+          newBox = {id: i, letter: gridLetters[i], solved: false}
+          newGrid = [...this.state.grid, newBox]
         }
       }
+      this.setState({grid : newGrid})
+    }
+  }
+
+  handleCorrectLetter = (event, id, letter) => {
+    console.log(event, id, letter)
+    if(event.target.value.toLowerCase() == letter.toLowerCase()){
+      const updatedGrid = this.state.grid.map(box => {
+        if(box.id == id){
+          return {
+            ...box, solved: true
+          }
+        } else {
+          return box
+        }
+      })
+      this.setState({grid:updatedGrid})
+      console.log(this.state.grid)
+    } else {
+      const updatedGrid = this.state.grid.map(box => {
+        if(box.id == id){
+          return {
+            ...box, solved: false
+          }
+        } else {
+          return box
+        }
+      })
+      this.setState({grid:updatedGrid})
+      console.log(this.state.grid)
     }
   }
 
   render() {
-    // console.log(this.state)
     return (
       <div className="crossword">
-        <Boxes grid={this.state.grid} handleChange={this.handleChange}/>
+        <Boxes grid={this.state.grid} handleCorrectLetter={this.handleCorrectLetter}/>
       </div>
     )
   }

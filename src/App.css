@@ -53,6 +53,10 @@ ol {
 }
 
 .solved {
+  background: green;
+}
+
+.solved {
   background: rgba(46, 139, 87, 0.8);
 }
 
