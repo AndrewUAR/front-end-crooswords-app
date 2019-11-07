@@ -40,6 +40,14 @@ class Crossword extends React.Component {
     }
   }
 
+  handleChange = (e, letter) => {
+    console.log(e.target.value.toLowerCase())
+    console.log(letter.toLowerCase())
+    if(e.target.value.toLowerCase() == letter.toLowerCase()){
+      
+    }
+  }
+
   createGrid = (data) => {
     const gridLetters = data.grid
     const gridNums = data.gridnums 
@@ -64,9 +72,10 @@ class Crossword extends React.Component {
   }
 
   render() {
+    // console.log(this.state)
     return (
       <div className="crossword">
-        <Boxes grid={this.state.grid} />
+        <Boxes grid={this.state.grid} handleChange={this.handleChange}/>
       </div>
     )
   }
