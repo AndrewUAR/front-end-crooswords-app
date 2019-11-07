@@ -34,12 +34,20 @@ ol {
   height: 50px;
   border: 1px solid #000;
   text-align: center;
-  font-size: 24px
+  font-size: 24px;
+}
+
+.solved-box {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #000;
+  text-align: center;
+  font-size: 24px;
+  background-color: greenyellow;
 }
 
 .box-wrapper {
   position: relative;
-
 }
 
 .box-label {
@@ -50,10 +58,6 @@ ol {
 
 .blank {
   background: #333;
-}
-
-.solved {
-  background: green;
 }
 
 .solved {

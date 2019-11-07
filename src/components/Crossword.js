@@ -66,8 +66,8 @@ class Crossword extends React.Component {
   }
 
   handleCorrectLetter = (event, id, letter) => {
-    console.log(event, id, letter)
-    if(event.target.value.toLowerCase() == letter.toLowerCase()){
+    console.log(letter)
+    if(event.toLowerCase() == letter.toLowerCase()){
       const updatedGrid = this.state.grid.map(box => {
         if(box.id == id){
           return {
@@ -78,7 +78,6 @@ class Crossword extends React.Component {
         }
       })
       this.setState({grid:updatedGrid})
-      console.log(this.state.grid)
     } else {
       const updatedGrid = this.state.grid.map(box => {
         if(box.id == id){
@@ -90,12 +89,7 @@ class Crossword extends React.Component {
         }
       })
       this.setState({grid:updatedGrid})
-      console.log(this.state.grid)
     }
-  }
-
-  handleCorrectLetter = (event, id, letter) => {
-    console.log(event, id, letter)
   }
 
   render() {

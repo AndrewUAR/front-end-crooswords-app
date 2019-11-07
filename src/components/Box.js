@@ -8,9 +8,10 @@ class Box extends React.Component {
         <div className="box blank"></div>
        )
     }
+
     if (this.props.number) {
       return (
-        <div className={"box-wrapper"}>
+        <div className="box-wrapper">
           <label className="box-label box-label--number">{this.props.number}</label>
           <input type="text" onChange={(event) => this.props.handleCorrectLetter(event.target.value, this.props.id, this.props.letter)} maxLength="1" className="box" />
         </div>
@@ -19,9 +20,7 @@ class Box extends React.Component {
     return (
       <input type="text" className="box-text" onChange={(event) => this.props.handleCorrectLetter(event.target.value, this.props.id, this.props.letter)} maxLength="1" className="box" />
     )
-
-
-  }
+     }
 }
 
 export default Box;
