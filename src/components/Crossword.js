@@ -94,6 +94,10 @@ class Crossword extends React.Component {
     }
   }
 
+  handleCorrectLetter = (event, id, letter) => {
+    console.log(event, id, letter)
+  }
+
   render() {
     return (
       <div className="crossword">
