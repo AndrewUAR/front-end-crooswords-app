@@ -20,20 +20,21 @@ class Crossword extends React.Component {
     const gridNums = data.gridnums 
 
     for (let i = 0; i < gridLetters.length; i++) {
+      let newGrid
+      let newBox
+      
       if (gridLetters[i] === '.') {
-        let newBox = {id: i, letter: null}
-        let newGrid = [...this.state.grid, newBox]
-        this.setState({grid : newGrid})
+        newBox = {id: i, letter: null}
+        newGrid = [...this.state.grid, newBox]
       } else {
         if (gridNums[i] > 0) {
-          let newBox = {id: i, letter: gridLetters[i], number: gridNums[i]}
-          let newGrid = [...this.state.grid, newBox]
-          this.setState({grid : newGrid})
+          newBox = {id: i, letter: gridLetters[i], number: gridNums[i]}
+          newGrid = [...this.state.grid, newBox]
         } else {
-          let newBox = {id: i, letter: gridLetters[i]}
-          let newGrid = [...this.state.grid, newBox]
-          this.setState({grid : newGrid})
+          newBox = {id: i, letter: gridLetters[i]}
+          newGrid = [...this.state.grid, newBox]
         }
+        this.setState({grid : newGrid})
       }
     }
   }
