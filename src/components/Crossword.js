@@ -14,11 +14,13 @@ class Crossword extends React.Component {
     console.log(date);
     fetch(`https://raw.githubusercontent.com/doshea/nyt_crosswords/master/${date}.json`)
       .then(resp => resp.json())
-      .then(data => this.createGrid(data))
+      .then(data => {
+        this.createGrid(data)
+      })
   }
 
   randomDate() {
-    let start = new Date("1979-01-01");
+    let start = new Date("1980-01-01");
     let end = new Date("2014-12-31");
     var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
         month = '' + (d.getMonth() + 1),
@@ -31,7 +33,11 @@ class Crossword extends React.Component {
     if (day.length < 2){
       day = '0' + day;
     }
-    return [year, month, day].join('/');
+    if (d.getDay() == 6){
+      return [(year - 1), month, day].join('/');
+    } else {
+      return [year, month, day].join('/');
+    }
   }
 
   createGrid = (data) => {
