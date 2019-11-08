@@ -6,7 +6,10 @@ class Clues extends React.Component {
     console.log(this.props.clues)
     return (
       <div>
-        {this.props.clues.map(clue => <Clue clue={clue} />)}
+        <p>ACROSS</p>
+        {this.props.across.map(clue => <Clue clue={clue} />)}
+        <p>DOWN</p>
+        {this.props.down.map(clue => <Clue clue={clue} />)}
       </div>
     )
   }
