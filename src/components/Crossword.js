@@ -1,11 +1,13 @@
 import React from 'react';
 import Boxes from './Boxes';
+import Clues from './Clues'
 
 class Crossword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       grid: [],
+      clues: {},
       corrects: 0
     }
   }
@@ -42,6 +44,7 @@ class Crossword extends React.Component {
   }
 
   createGrid = (data) => {
+    
     const gridLetters = data.grid
     const gridNums = data.gridnums 
 
@@ -61,15 +64,16 @@ class Crossword extends React.Component {
           newGrid = [...this.state.grid, newBox]
         }
       }
-      this.setState({grid : newGrid})
+      this.setState({clues: data.clues, grid : newGrid})
     }
   }
 
-  handleCorrectLetter = (event, id, letter) => {
-    console.log(event, id, letter)
-    if(event.target.value.toLowerCase() == letter.toLowerCase()){
-      const updatedGrid = this.state.grid.map(box => {
-        if(box.id == id){
+  handleCorrectLetter = (value, id, letter) => {
+    console.log(letter)
+    let updatedGrid
+    if(value.toLowerCase() === letter.toLowerCase()){
+      updatedGrid = this.state.grid.map(box => {
+        if(box.id === id){
           return {
             ...box, solved: true
           }
@@ -77,11 +81,9 @@ class Crossword extends React.Component {
           return box
         }
       })
-      this.setState({grid:updatedGrid})
-      console.log(this.state.grid)
     } else {
-      const updatedGrid = this.state.grid.map(box => {
-        if(box.id == id){
+      updatedGrid = this.state.grid.map(box => {
+        if(box.id === id){
           return {
             ...box, solved: false
           }
@@ -89,19 +91,33 @@ class Crossword extends React.Component {
           return box
         }
       })
-      this.setState({grid:updatedGrid})
-      console.log(this.state.grid)
+    }
+    this.setState({grid:updatedGrid})
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.grid !== prevState.grid){
+      this.countSolved()
     }
   }
 
-  handleCorrectLetter = (event, id, letter) => {
-    console.log(event, id, letter)
+  countSolved = () => {
+    let countSolved = 0
+      this.state.grid.forEach(element => {
+        if(element.solved === true){
+          countSolved++
+        }
+      });
+    this.setState({corrects: countSolved})
   }
 
+
   render() {
+    
     return (
       <div className="crossword">
-        <Boxes grid={this.state.grid} handleCorrectLetter={this.handleCorrectLetter}/>
+        <div><Boxes grid={this.state.grid} handleCorrectLetter={this.handleCorrectLetter}/></div>
+        <div>{this.state.clues && <Clues clues={this.state.clues.across} />}</div>
       </div>
     )
   }
