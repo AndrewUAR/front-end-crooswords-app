@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Crosswords from './components/Crosswords'
 import Login from './components/Login'
+import Nav from './components/Nav'
+
 
 class App extends React.Component {
 
@@ -24,12 +26,9 @@ class App extends React.Component {
 
   render(){
     return (
-      <div className="App">
-        {this.state.auth.username && this.state.auth.username != undefined ? 
-        <Crosswords />
-        :
-        <Login Login handleLogin={(user) => this.handleLogin(user)}/>
-        }
+      <div className="container">
+        <Nav className="row"/>
+        <Crosswords className="row" />
       </div>
     );
   }
