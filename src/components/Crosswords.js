@@ -12,11 +12,13 @@ class Crosswords extends React.Component {
     fetch(`http://localhost:3000/puzzles`)
       .then(resp => resp.json())
       .then(data => {
+        console.log(data)
         this.setState({puzzles: data})
       })
   }
 
   createGrid = (data) => {
+    console.log(data)
     const grid = data.gridLetters
     const gridnums = data.gridNumbers
     const gridBoxes = [];
