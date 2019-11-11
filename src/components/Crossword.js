@@ -7,8 +7,7 @@ class Crossword extends React.Component {
     super(props);
     this.state = {
       grid: [],
-      cluesAcross: [],
-      cluesDown: [],
+      clues: {},
       corrects: 0
     }
   }
@@ -65,11 +64,7 @@ class Crossword extends React.Component {
           newGrid = [...this.state.grid, newBox]
         }
       }
-      this.setState({
-        cluesAcross: data.clues.across, 
-        cluesDown: data.clues.down, 
-        grid : newGrid
-      })
+      this.setState({clues: data.clues, grid : newGrid})
     }
   }
 
@@ -122,7 +117,7 @@ class Crossword extends React.Component {
     return (
       <div className="crossword">
         <div><Boxes grid={this.state.grid} handleCorrectLetter={this.handleCorrectLetter}/></div>
-        <div>{<Clues across={this.state.cluesAcross} down={this.state.cluesDown}/>}</div>
+        {/* <div>{this.state.clues && <Clues clues={this.state.clues} />}</div> */}
       </div>
     )
   }
