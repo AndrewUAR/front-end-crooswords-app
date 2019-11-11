@@ -3,24 +3,23 @@ import React from 'react';
 class Box extends React.Component {
 
   render() {
-    if (!this.props.letter) {
+    if (!this.props.box.letter) {
       return (
         <div className="box blank"></div>
        )
-    }
-
-    if (this.props.number) {
+    }else if (this.props.box.number) {
       return (
-        <div className="box-wrapper">
-          <label className="box-label box-label--number">{this.props.number}</label>
-          <input type="text" onChange={(event) => this.props.handleCorrectLetter(event.target.value, this.props.id, this.props.letter)} maxLength="1" className="box" />
+        <div className={"box-wrapper"}>
+          <label className="box-label box-label--number">{this.props.box.number}</label>
+          <input type="text" onChange={(event) => this.props.handleInputLetter(event.target.value, this.props.box)} maxLength="1" className="box" />
         </div>
       )
+    } else {
+      return (
+        <input type="text" className="box-text" onChange={(event) => this.props.handleInputLetter(event.target.value, this.props.box)} maxLength="1" className="box" />
+      )
     }
-    return (
-      <input type="text" className="box-text" onChange={(event) => this.props.handleCorrectLetter(event.target.value, this.props.id, this.props.letter)} maxLength="1" className="box" />
-    )
-     }
+  }
 }
 
 export default Box;

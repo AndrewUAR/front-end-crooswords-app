@@ -6,118 +6,152 @@ class Crossword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: [],
-      clues: {},
+      grid: props.puzzle.grid,
+      cluesAcross: props.puzzle.cluesAcross,
+      cluesDown: props.puzzle.cluesDown,
       corrects: 0
     }
   }
 
-  componentDidMount(){
-    let date = this.randomDate()
-    console.log(date);
-    fetch(`https://raw.githubusercontent.com/doshea/nyt_crosswords/master/${date}.json`)
-      .then(resp => resp.json())
-      .then(data => {
-        this.createGrid(data)
-      })
-  }
+  // componentDidMount(){
+  //   fetch(`http://localhost:3000/puzzles`)
+  //     .then(resp => resp.json())
+  //     .then(data => {this.createGrid(data[3])})
+  // }
 
-  randomDate() {
-    let start = new Date("1980-01-01");
-    let end = new Date("2014-12-31");
-    var d = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
+  // createGrid = (data) => {
+  //   const grid = data.gridLetters
+  //   const gridnums = data.gridNumbers
+  //   const gridwords = [];
+  //   let across = 0;
+  //   let down = 0;
+  //   const findLetter = (id) => gridwords.find(grid => grid.id === id)
 
-    if (month.length < 2){
-      month = '0' + month;
-    }
-    if (day.length < 2){
-      day = '0' + day;
-    }
-    if (d.getDay() == 6){
-      return [(year - 1), month, day].join('/');
-    } else {
-      return [year, month, day].join('/');
-    }
-  }
+  //   for (let i = 0; i < grid.length; i++) {
+  //     if (gridnums[i] > 0 && grid[i] !== '.' && grid[i + 15] !== '.') {
+  //       gridwords.push({
+  //         id: i,
+  //         letter: grid[i],
+  //         number: gridnums[i],
+  //         across: true,
+  //         clueAcross: across,
+  //         clueDown: null,
+  //         down: null,
+  //         value: null
+  //       })
+  //       if ((i + 1) % 15 === 0) across = across + 1
+  //     } else if (grid[i] !== '.' && grid[i + 15] !== '.' ) {
+  //       gridwords.push({
+  //         id: i,
+  //         letter: grid[i],
+  //         clueAcross: across,
+  //         clueDown: null,
+  //         across: true,
+  //         down: null,
+  //         value: null
+  //       })
+  //       if ((i + 1) % 15 === 0) across = across + 1
+  //     } else if (gridnums[i] > 0 && grid[i] !== '.') {
+  //       gridwords.push({
+  //         id: i,
+  //         letter: grid[i],
+  //         number: gridnums[i],
+  //         across: true,
+  //         clueAcross: across,
+  //         clueDown: null,
+  //         down: null,
+  //         value: null
+  //       })
+  //       if ((i + 1) % 15 === 0) across = across + 1
+  //     } else if (grid[i] !== '.') {
+  //       gridwords.push({
+  //         id: i,
+  //         letter: grid[i],
+  //         clueAcross: across,
+  //         clueDown: 0,
+  //         across: true,
+  //         down: null,
+  //         value: null
+  //       })
+  //       if ((i + 1) % 15 === 0) across = across + 1
+  //     } else {
+  //       gridwords.push({
+  //         id: i,
+  //         letter: null
+  //       })
+  //       if ( i !== 0 && grid[i - 1] !== '.' && grid[i] === '.') across = across + 1
+  //       console.log(i)
+  //     }
+  //   }
 
-  createGrid = (data) => {
-    
-    const gridLetters = data.grid
-    const gridNums = data.gridnums 
+  //   for (let i = 0; i < grid.length; i++) {
+  //     if (gridnums[i] > 0 && grid[i] !== '.' && grid[i + 15] !== '.' && i < 15) {
+  //       findLetter(i).down = true
+  //       findLetter(i).clueDown = down
+  //       down = down + 1
+  //     } else if (grid[i] !== '.' && (i - 15) >= 0 && grid[i - 15] !== '.' && findLetter(i - 15).down === true) {
+  //       findLetter(i).down = true
+  //       findLetter(i).clueDown = findLetter(i - 15).clueDown
+  //     } else if (gridnums[i] > 0 && grid[i] !== '.' && (i - 15) >= 0 && grid[i - 15] === '.') {
+  //       findLetter(i).down = true
+  //       down = down + 1
+  //       findLetter(i).clueDown = down
+  //     }
+  //   }
+  //   this.setState({
+  //     grid: gridwords,
+  //     cluesAcross: data.cluesAcross,
+  //     cluesDown: data.cluesDown
+  //   })
+  // }
 
-    for (let i = 0; i < gridLetters.length; i++) {
-      let newGrid;
-      let newBox;
 
-      if (gridLetters[i] === '.') {
-        newBox = {id: i, letter: null, solved: false}
-        newGrid = [...this.state.grid, newBox]
-      } else {
-        if (gridNums[i] > 0) {
-          newBox = {id: i, letter: gridLetters[i], number: gridNums[i], solved: false}
-          newGrid = [...this.state.grid, newBox]
-        } else {
-          newBox = {id: i, letter: gridLetters[i], solved: false}
-          newGrid = [...this.state.grid, newBox]
+  handleInputLetter = (input, boxx) => {
+
+    let updatedGrid = this.state.grid.map(box => {
+      if(box.id === boxx.id){
+        return {
+          ...box, value: input.toUpperCase()
         }
+      }else{
+        return box
       }
-      this.setState({clues: data.clues, grid : newGrid})
-    }
-  }
+    })
 
-  handleCorrectLetter = (value, id, letter) => {
-    console.log(letter)
-    let updatedGrid
-    if(value.toLowerCase() === letter.toLowerCase()){
-      updatedGrid = this.state.grid.map(box => {
-        if(box.id === id){
-          return {
-            ...box, solved: true
-          }
-        } else {
-          return box
-        }
-      })
-    } else {
-      updatedGrid = this.state.grid.map(box => {
-        if(box.id === id){
-          return {
-            ...box, solved: false
-          }
-        } else {
-          return box
-        }
-      })
-    }
-    this.setState({grid:updatedGrid})
+    this.setState({grid: updatedGrid}) 
   }
 
   componentDidUpdate(prevProps, prevState){
-    if(this.state.grid !== prevState.grid){
+    if(prevState.grid !== this.state.grid){
       this.countSolved()
     }
   }
 
   countSolved = () => {
-    let countSolved = 0
-      this.state.grid.forEach(element => {
-        if(element.solved === true){
-          countSolved++
-        }
-      });
-    this.setState({corrects: countSolved})
+    let solved = 0
+    for(let i = 0; i <= this.state.cluesAcross.length + 1; i++){
+      let filtered = this.state.grid.filter(box => box.clueAcross === i)
+      if (filtered.length && filtered.every(box => box.value === box.letter)) {
+
+        solved++;
+      }
+    }
+    for(let j = 0; j <= this.state.cluesDown.length; j++){
+      let filtered = this.state.grid.filter(box => box.clueDown === j)
+      if (filtered.length && filtered.every(box => box.value === box.letter)){
+        solved++;
+      }
+    }
+    this.setState({corrects: solved})
   }
 
 
   render() {
-    
     return (
       <div className="crossword">
-        <div><Boxes grid={this.state.grid} handleCorrectLetter={this.handleCorrectLetter}/></div>
-        {/* <div>{this.state.clues && <Clues clues={this.state.clues} />}</div> */}
+        {console.log(this.state)}
+        <div><Boxes grid={this.state.grid} handleInputLetter={this.handleInputLetter} corrects={this.state.corrects}/></div>
+        <div>{this.state.clues && <Clues clues={this.state.clues.down} />}</div>
       </div>
     )
   }

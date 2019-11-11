@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Crossword from './components/Crossword'
+import Crosswords from './components/Crosswords'
 import Login from './components/Login'
 
 class App extends React.Component {
@@ -26,7 +26,7 @@ class App extends React.Component {
     return (
       <div className="App">
         {this.state.auth.username && this.state.auth.username != undefined ? 
-        <Crossword />
+        <Crosswords />
         :
         <Login Login handleLogin={(user) => this.handleLogin(user)}/>
         }
