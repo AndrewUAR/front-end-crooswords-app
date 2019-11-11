@@ -116,8 +116,8 @@ class Crosswords extends React.Component {
 
   render(){
     return (
-      <div>
-        {this.state.puzzle ? <Crossword puzzle={this.state.puzzle} /> : <NewGame handleNewGame={this.handleNewGame}/> }
+      <div className="row">
+        {this.state.puzzle ? <Crossword puzzle={this.state.puzzle} /> : <NewGame className="row" handleNewGame={this.handleNewGame}/> }
       </div>
     )
   }

@@ -1,7 +1,5 @@
 import React from 'react';
 import Crossword from './Crossword';
-// import Api from '../services/api'
-import { Redirect } from 'react-router-dom'
 
 
 class Login extends React.Component {
