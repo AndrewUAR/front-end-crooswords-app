@@ -16,6 +16,7 @@ class App extends React.Component {
     this.setState({
       auth: user
     })
+    console.log(this.state.auth)
   }
 
   handleLogout(){
@@ -24,10 +25,37 @@ class App extends React.Component {
     })
   }
 
+  handleFormSubmit = (e) => {
+    e.preventDefault()
+    console.log(e.target.username.value, e.target.password.value)
+    this.handleLogin({username: e.target.username.value, password: e.target.password.value})
+    // const reqObj = {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(this.state)
+    // }
+
+    // fetch('http://localhost:3000/api/v1/auth', reqObj)
+    //   .then( resp => resp.json())
+    //   .then( data => {
+    //     if(data.error) {
+    //       this.setState({
+    //         isInvalid: true
+    //       })
+    //     } else {
+    //       this.props.handleLogin(data)
+    //       this.props.history.push('/')
+    //     }
+    //   })
+  }
+
   render(){
+    console.log(this.state.auth.username)
     return (
       <div className="container">
-        <Nav className="row"/>
+        <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth}/>
         <Crosswords className="row" />
       </div>
     );
