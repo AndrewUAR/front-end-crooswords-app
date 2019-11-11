@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Crossword from './components/Crossword'
+import Crosswords from './components/Crosswords'
 
 function App() {
   return (
     <div className="App">
-      <Crossword />
+      <Crosswords />
     </div>
   );
 }
