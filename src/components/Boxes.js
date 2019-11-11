@@ -4,9 +4,12 @@ import Box from './Box';
 class Boxes extends React.Component {
    render() {
      return (
-      <div className="boxes">
-         { this.props.grid.map(box => <Box key={box.id} box={box} letter={box.letter} number={box.number} id={box.id}  handleCorrectLetter={this.props.handleCorrectLetter}/>)}
-       </div>
+      <div>
+        <div>Correct: {this.props.corrects}</div>
+        <div className="boxes">
+          { this.props.grid.map(box => <Box key={box.id} box={box}  handleInputLetter={this.props.handleInputLetter} />)}
+        </div>
+      </div>
      )
    }
 }
