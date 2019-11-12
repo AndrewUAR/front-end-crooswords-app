@@ -71,9 +71,6 @@ ol {
   background: #333;
 }
 
-.solved {
-  background: rgba(46, 139, 87, 0.8);
-}
 
 @media all and (max-width: 1030px) {
   .crossword {
@@ -95,3 +92,20 @@ ol {
   position: relative;
 }
 
+.score {
+  display: inline;
+  text-align: right;
+  float: right;
+}
+
+.solved {
+  display: inline
+}
+
+.buttons-game {
+  padding-top: 20px
+}
+
+.navbar-brand {
+  font-family: Arial, Helvetica, sans-serif;
+}

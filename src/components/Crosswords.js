@@ -5,7 +5,7 @@ import NewGame from './NewGame'
 class Crosswords extends React.Component {
   state = {
     puzzles : [],
-    puzzle: false
+    puzzle: []
   }
 
   componentDidMount() {
@@ -96,7 +96,7 @@ class Crosswords extends React.Component {
         findLetter(i).clueDown = down
       }
     }
-
+    console.log(this.state.puzzle)
     this.setState({
       puzzle: {
         grid: gridBoxes,
@@ -108,16 +108,16 @@ class Crosswords extends React.Component {
   }
 
   handleNewGame = () => {
-    console.log('Im here')
     const newGame = this.state.puzzles[Math.floor(Math.random() * this.state.puzzles.length)]
-    console.log(newGame)
     this.createGrid(newGame)
   }
 
   render(){
     return (
       <div className="row">
-        {this.state.puzzle ? <Crossword puzzle={this.state.puzzle} /> : <NewGame className="row" handleNewGame={this.handleNewGame}/> }
+        {Object.keys(this.state.puzzle).length ?
+          <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame}/> : 
+          <NewGame className="row" handleNewGame={this.handleNewGame}/> }
       </div>
     )
   }
