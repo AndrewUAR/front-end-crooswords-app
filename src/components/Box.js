@@ -16,7 +16,7 @@ class Box extends React.Component {
       )
     } else {
       return (
-        <input type="text" className="box-text" onChange={(event) => this.props.handleInputLetter(event.target.value, this.props.box)} maxLength="1" className="box" />
+        <input type="text" className="box box-text" onChange={(event) => this.props.handleInputLetter(event.target.value, this.props.box)} maxLength="1" />
       )
     }
   }

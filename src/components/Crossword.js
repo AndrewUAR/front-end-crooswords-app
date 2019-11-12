@@ -57,9 +57,11 @@ class Crossword extends React.Component {
     return (
         <div className="crossword">
           <div className="crossword-boxes">
-            <Boxes grid={this.state.grid} handleInputLetter={this.handleInputLetter} corrects={this.state.corrects} totalWords={this.state.cluesAcross.length + this.state.cluesDown.length}/> 
+            <div><Clues clues={this.state.cluesDown} down={'down'}/></div>
+            <Boxes grid={this.state.grid} handleInputLetter={this.handleInputLetter} corrects={this.state.corrects} 
+                totalWords={this.state.cluesAcross.length + this.state.cluesDown.length} handleNewGame={this.props.handleNewGame}/> 
+            <div><Clues clues={this.state.cluesAcross} across={'across'} /></div>
           </div>
-          <div>{this.state.clues && <Clues clues={this.state.clues.down} />}</div>
         </div>
     )
   }

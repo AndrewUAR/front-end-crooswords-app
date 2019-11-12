@@ -26,7 +26,7 @@ class App extends React.Component {
 
   render(){
     return (
-      <div className="container">
+      <div>
         <Nav className="row"/>
         <Crosswords className="row" />
       </div>
