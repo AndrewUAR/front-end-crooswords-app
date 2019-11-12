@@ -22,10 +22,18 @@ class App extends React.Component {
     window.location.reload()
   }
 
-  validatePassword(string){
-    if(string.length < 8){
+  validateUser(username, password){
+    if(!username){
+      return "PLEASE ENTER A USERNAME"
+    } else if(!password){
+      return "PLEASE ENTER A PASSWORD"
+    } else if(username.length < 8){
+      return "USERNAME MUST BE GREATER THAN 8 CHARACTERS"
+    } else if(/\s/g.test(username)){
+      return "USERNAME CANNOT CONTAIN SPACES"
+    } else if(password.length < 8){
       return "PASSWORD MUST BE GREATER THAN 8 CHARACTERS"
-    } else if (/\s/g.test(string)){
+    } else if (/\s/g.test(password)){
       return "PASSWORD CANNOT CONTAIN SPACES"
     } else {
       return
@@ -45,7 +53,7 @@ class App extends React.Component {
         usernames.push(user.username)
       })
       if(!usernames.includes(username)){
-        if(username && !this.validatePassword(password)){
+        if(!this.validateUser(username, password)){
         fetch('http://localhost:3000/users', {
           method: 'POST',
           headers: {
@@ -58,11 +66,10 @@ class App extends React.Component {
         })
         .then( resp => resp.json())
         .then( data => {
-          console.log(data)
           this.handleLogin({username:username, password:password}, data.token)
         })
         } else {
-          this.setState({error: this.validatePassword(password)})
+          this.setState({error: this.validateUser(username, password)})
         }
       } else {
         this.handleLogin({username:username, password:password})
