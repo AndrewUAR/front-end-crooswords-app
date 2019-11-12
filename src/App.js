@@ -10,20 +10,25 @@ class App extends React.Component {
 
   state = {
     auth: {},
-    isInvalid: false
+    error: ''
   }
 
-  handleLogin(user){
+  handleLogin(user, token){
     this.setState({
       auth: user
     })
     localStorage.setItem('username', user.username)
+    localStorage.setItem('token', token)
     window.location.reload()
   }
 
   validatePassword(string){
-    if(string){
-      return true
+    if(string.length < 8){
+      return "PASSWORD MUST BE GREATER THAN 8 CHARACTERS"
+    } else if (/\s/g.test(string)){
+      return "PASSWORD CANNOT CONTAIN SPACES"
+    } else {
+      return
     }
   }
 
@@ -40,7 +45,7 @@ class App extends React.Component {
         usernames.push(user.username)
       })
       if(!usernames.includes(username)){
-        if(this.validatePassword(password)){
+        if(username && !this.validatePassword(password)){
         fetch('http://localhost:3000/users', {
           method: 'POST',
           headers: {
@@ -53,10 +58,11 @@ class App extends React.Component {
         })
         .then( resp => resp.json())
         .then( data => {
-          this.handleLogin({username:username, password:password})
+          console.log(data)
+          this.handleLogin({username:username, password:password}, data.token)
         })
         } else {
-          this.setState({isInvalid: true})
+          this.setState({error: this.validatePassword(password)})
         }
       } else {
         this.handleLogin({username:username, password:password})
@@ -68,7 +74,7 @@ class App extends React.Component {
     console.log(this.state.auth.username)
     return (
       <div className="container">
-        <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth} isInvalid={this.state.isInvalid}/>
+        <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth} error={this.state.error}/>
         <Crosswords className="row" />
       </div>
     );
