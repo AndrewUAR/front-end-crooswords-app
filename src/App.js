@@ -9,7 +9,8 @@ import Nav from './components/Nav'
 class App extends React.Component {
 
   state = {
-    auth: {}
+    auth: {},
+    isInvalid: false
   }
 
   handleLogin(user){
@@ -18,6 +19,12 @@ class App extends React.Component {
     })
     localStorage.setItem('username', user.username)
     window.location.reload()
+  }
+
+  validatePassword(string){
+    if(string){
+      return true
+    }
   }
 
   handleFormSubmit = (e) => {
@@ -33,6 +40,7 @@ class App extends React.Component {
         usernames.push(user.username)
       })
       if(!usernames.includes(username)){
+        if(this.validatePassword(password)){
         fetch('http://localhost:3000/users', {
           method: 'POST',
           headers: {
@@ -47,6 +55,9 @@ class App extends React.Component {
         .then( data => {
           this.handleLogin({username:username, password:password})
         })
+        } else {
+          this.setState({isInvalid: true})
+        }
       } else {
         this.handleLogin({username:username, password:password})
       }
@@ -57,7 +68,7 @@ class App extends React.Component {
     console.log(this.state.auth.username)
     return (
       <div className="container">
-        <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth}/>
+        <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth} isInvalid={this.state.isInvalid}/>
         <Crosswords className="row" />
       </div>
     );

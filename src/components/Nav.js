@@ -12,6 +12,7 @@ const Nav = props => {
     : 
     <nav className="navbar navbar-dark bg-dark">
     <a className="navbar-brand" href="#">WE SOLVIN'</a>
+    { props.isInvalid ? <p>PASSWORD IS INVALID</p> : null}
     <div className="dropdown">
       <button className="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Login
