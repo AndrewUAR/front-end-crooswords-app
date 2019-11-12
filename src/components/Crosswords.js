@@ -108,8 +108,21 @@ class Crosswords extends React.Component {
   }
 
   handleNewGame = () => {
+    console.log(this.props.user)
     const newGame = this.state.puzzles[Math.floor(Math.random() * this.state.puzzles.length)]
     this.createGrid(newGame)
+    fetch('http://localhost:3000/games', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: this.props.user,
+            puzzle: newGame.id
+          })
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
   }
 
   render(){

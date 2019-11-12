@@ -6,10 +6,10 @@ class Boxes extends React.Component {
      return (
       <div>
         <h3 className='solved'>
-          <span class="badge badge-light">Solved: {this.props.corrects}/{this.props.totalWords}</span>
+          <span className="badge badge-light">Solved: {this.props.corrects}/{this.props.totalWords}</span>
         </h3>
         <h3 className='score'>
-          <span class="badge badge-light">Score: 0</span>
+          <span className="badge badge-light">Score: 0</span>
         </h3>
         
         <div className="boxes">
@@ -17,8 +17,8 @@ class Boxes extends React.Component {
         </div>
 
         <div className="buttons-game">
-          <button type="button" class="btn btn-primary btn-lg btn-block" onClick={() => this.props.handleNewGame()}>New Game</button>
-          <button type="button" class="btn btn-light btn-lg btn-block">Show Answers</button>
+          <button type="button" className="btn btn-primary btn-lg btn-block" onClick={() => this.props.handleNewGame()}>New Game</button>
+          <button type="button" className="btn btn-light btn-lg btn-block">Show Answers</button>
         </div>
       </div>
      )

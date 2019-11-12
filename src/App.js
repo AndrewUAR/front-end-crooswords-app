@@ -82,7 +82,7 @@ class App extends React.Component {
     return (
       <div className="container">
         <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth} error={this.state.error}/>
-        <Crosswords className="row" />
+        <Crosswords className="row" user={localStorage.getItem('username')}/>
       </div>
     );
   }
