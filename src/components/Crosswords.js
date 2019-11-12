@@ -12,13 +12,11 @@ class Crosswords extends React.Component {
     fetch(`http://localhost:3000/puzzles`)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data)
         this.setState({puzzles: data})
       })
   }
 
   createGrid = (data) => {
-    console.log(data)
     const grid = data.gridLetters
     const gridnums = data.gridNumbers
     const gridBoxes = [];
@@ -36,7 +34,7 @@ class Crosswords extends React.Component {
           clueAcross: across,
           clueDown: null,
           down: null,
-          value: null
+          value: ''
         })
         if ((i + 1) % 15 === 0) across = across + 1
       } else if (grid[i] !== '.' && grid[i + 15] !== '.') {
@@ -47,7 +45,7 @@ class Crosswords extends React.Component {
           clueDown: null,
           across: true,
           down: null,
-          value: null
+          value: ''
         })
         if ((i + 1) % 15 === 0) across = across + 1
       } else if (gridnums[i] > 0 && grid[i] !== '.') {
@@ -59,7 +57,7 @@ class Crosswords extends React.Component {
           clueAcross: across,
           clueDown: null,
           down: null,
-          value: null
+          value: ''
         })
         if ((i + 1) % 15 === 0) across = across + 1
       } else if (grid[i] !== '.') {
@@ -70,7 +68,7 @@ class Crosswords extends React.Component {
           clueDown: 0,
           across: true,
           down: null,
-          value: null
+          value: ''
         })
         if ((i + 1) % 15 === 0) across = across + 1
       } else {
@@ -96,15 +94,14 @@ class Crosswords extends React.Component {
         findLetter(i).clueDown = down
       }
     }
-    console.log(this.state.puzzle)
     this.setState({
       puzzle: {
         grid: gridBoxes,
         cluesAcross: data.cluesAcross,
-        cluesDown: data.cluesDown
+        cluesDown: data.cluesDown,
+        opened: false
       }
     })
-    console.log(this.state.puzzle)
   }
 
   handleNewGame = () => {
@@ -113,10 +110,11 @@ class Crosswords extends React.Component {
   }
 
   render(){
+    console.log('render in puzzle', this.state.puzzle)
     return (
       <div className="row">
         {Object.keys(this.state.puzzle).length ?
-          <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame}/> : 
+          <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame} /> : 
           <NewGame className="row" handleNewGame={this.handleNewGame}/> }
       </div>
     )
