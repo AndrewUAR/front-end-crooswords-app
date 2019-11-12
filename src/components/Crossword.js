@@ -9,10 +9,22 @@ class Crossword extends React.Component {
       grid: props.puzzle.grid,
       cluesAcross: props.puzzle.cluesAcross,
       cluesDown: props.puzzle.cluesDown,
-      corrects: 0
+      corrects: 0,
+      opened: props.puzzle.opened
     }
   }
 
+  componentWillUpdate(prevProps){
+    if(prevProps !== this.props) {
+      this.setState({
+        grid: this.props.puzzle.grid,
+        cluesAcross: this.props.puzzle.cluesAcross,
+        cluesDown: this.props.puzzle.cluesDown,
+        corrects: 0,
+        opened: this.props.puzzle.opened
+      })
+    }
+  }
   handleInputLetter = (input, boxx) => {
 
     let updatedGrid = this.state.grid.map(box => {
@@ -52,15 +64,32 @@ class Crossword extends React.Component {
     this.setState({corrects: solved})
   }
 
+  handleShowAnswers = (event) => {
+    console.log('Im here')
+    this.setState({opened: true})
+  }
+
 
   render() {
+    console.log(this.state.opened)
     return (
         <div className="crossword">
           <div className="crossword-boxes">
-            <div><Clues clues={this.state.cluesDown} down={'down'}/></div>
-            <Boxes grid={this.state.grid} handleInputLetter={this.handleInputLetter} corrects={this.state.corrects} 
-                totalWords={this.state.cluesAcross.length + this.state.cluesDown.length} handleNewGame={this.props.handleNewGame}/> 
-            <div><Clues clues={this.state.cluesAcross} across={'across'} /></div>
+              <Clues clues={this.state.cluesDown} 
+                  down={'down'}
+              />
+              <Boxes grid={this.state.grid} 
+                  corrects={this.state.corrects}
+                  opened={this.state.opened}
+                  handleInputLetter={this.handleInputLetter}  
+                  totalWords={this.state.cluesAcross.length + this.state.cluesDown.length} 
+                  handleNewGame={this.props.handleNewGame}
+                  handleShowAnswers={this.handleShowAnswers}  
+              />
+              <Clues 
+                clues={this.state.cluesAcross} 
+                across={'across'} 
+              />
           </div>
         </div>
     )
