@@ -9,25 +9,79 @@ import Nav from './components/Nav'
 class App extends React.Component {
 
   state = {
-    auth: {}
+    auth: {},
+    error: ''
   }
 
-  handleLogin(user){
+  handleLogin(user, token){
     this.setState({
       auth: user
     })
+    localStorage.setItem('username', user.username)
+    localStorage.setItem('token', token)
+    window.location.reload()
   }
 
-  handleLogout(){
-    this.setState({
-      auth: {} 
+  validateUser(username, password){
+    if(!username){
+      return "PLEASE ENTER A USERNAME"
+    } else if(!password){
+      return "PLEASE ENTER A PASSWORD"
+    } else if(username.length < 8){
+      return "USERNAME MUST BE GREATER THAN 8 CHARACTERS"
+    } else if(/\s/g.test(username)){
+      return "USERNAME CANNOT CONTAIN SPACES"
+    } else if(password.length < 8){
+      return "PASSWORD MUST BE GREATER THAN 8 CHARACTERS"
+    } else if (/\s/g.test(password)){
+      return "PASSWORD CANNOT CONTAIN SPACES"
+    } else {
+      return
+    }
+  }
+
+  handleFormSubmit = (e) => {
+    e.preventDefault()
+    let username = e.target.username.value;
+    let password = e.target.password.value;
+    fetch('http://localhost:3000/users')
+    .then(res => res.json())
+    .then(data => {
+      let usernames = [];
+      data.forEach(user => {
+        console.log(user)
+        usernames.push(user.username)
+      })
+      if(!usernames.includes(username)){
+        if(!this.validateUser(username, password)){
+        fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        })
+        .then( resp => resp.json())
+        .then( data => {
+          this.handleLogin({username:username, password:password}, data.token)
+        })
+        } else {
+          this.setState({error: this.validateUser(username, password)})
+        }
+      } else {
+        this.handleLogin({username:username, password:password})
+      }
     })
   }
 
   render(){
+    console.log(this.state.auth.username)
     return (
-      <div>
-        <Nav className="row"/>
+      <div className="container">
+        <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth} error={this.state.error}/>
         <Crosswords className="row" />
       </div>
     );
