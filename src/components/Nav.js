@@ -3,11 +3,11 @@ import React from 'react';
 const Nav = props => {
 
   return (
-    <div>
-    {props.user.username != undefined ? 
+    <div style={{color: 'white'}}>
+    {localStorage.getItem('username') != undefined ? 
         <nav className="navbar navbar-dark bg-dark">
         <a className="navbar-brand" href="#">WE SOLVIN'</a>
-        Hi, {props.user.username}!
+        Hi, {localStorage.getItem('username')}!
       </nav>
     : 
     <nav className="navbar navbar-dark bg-dark">

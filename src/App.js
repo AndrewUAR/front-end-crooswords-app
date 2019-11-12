@@ -16,7 +16,7 @@ class App extends React.Component {
     this.setState({
       auth: user
     })
-    console.log(this.state.auth)
+    localStorage.setItem('username', user.username)
   }
 
   handleLogout(){
