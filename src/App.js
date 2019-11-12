@@ -17,38 +17,40 @@ class App extends React.Component {
       auth: user
     })
     localStorage.setItem('username', user.username)
-  }
-
-  handleLogout(){
-    this.setState({
-      auth: {} 
-    })
+    window.location.reload()
   }
 
   handleFormSubmit = (e) => {
     e.preventDefault()
-    console.log(e.target.username.value, e.target.password.value)
-    this.handleLogin({username: e.target.username.value, password: e.target.password.value})
-    // const reqObj = {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(this.state)
-    // }
-
-    // fetch('http://localhost:3000/api/v1/auth', reqObj)
-    //   .then( resp => resp.json())
-    //   .then( data => {
-    //     if(data.error) {
-    //       this.setState({
-    //         isInvalid: true
-    //       })
-    //     } else {
-    //       this.props.handleLogin(data)
-    //       this.props.history.push('/')
-    //     }
-    //   })
+    let username = e.target.username.value;
+    let password = e.target.password.value;
+    fetch('http://localhost:3000/users')
+    .then(res => res.json())
+    .then(data => {
+      let usernames = [];
+      data.forEach(user => {
+        console.log(user)
+        usernames.push(user.username)
+      })
+      if(!usernames.includes(username)){
+        fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        })
+        .then( resp => resp.json())
+        .then( data => {
+          this.handleLogin({username:username, password:password})
+        })
+      } else {
+        this.handleLogin({username:username, password:password})
+      }
+    })
   }
 
   render(){
