@@ -13,6 +13,29 @@ class App extends React.Component {
     error: ''
   }
 
+  componentDidMount(){
+    if(localStorage.getItem('username') && !this.state.auth.username){
+      let auth = {...this.state.auth}
+      auth.username = localStorage.getItem('username')
+      this.setState({auth})
+
+      fetch('http://localhost:3000/users')
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(user => {
+          if(user.username == localStorage.getItem('username')){
+            let auth = {...this.state.auth};
+            auth.username = user.username;
+            auth.password = user.password;
+            this.setState({auth})
+          }
+        })
+      })
+    } else {
+      console.log(this.state.auth)
+    }
+  }
+
   handleLogin(user, token){
     this.setState({
       auth: user
@@ -29,11 +52,11 @@ class App extends React.Component {
       return "PLEASE ENTER A PASSWORD"
     } else if(username.length < 8){
       return "USERNAME MUST BE GREATER THAN 8 CHARACTERS"
-    } else if(/\s/g.test(username)){
+    } else if(/\s/.test(username)){
       return "USERNAME CANNOT CONTAIN SPACES"
     } else if(password.length < 8){
       return "PASSWORD MUST BE GREATER THAN 8 CHARACTERS"
-    } else if (/\s/g.test(password)){
+    } else if (/\s/.test(password)){
       return "PASSWORD CANNOT CONTAIN SPACES"
     } else {
       return

@@ -4,10 +4,10 @@ const Nav = props => {
 
   return (
     <div style={{color: 'white'}}>
-    {localStorage.getItem('username') != undefined ? 
+    {props.user.username != undefined ? 
         <nav className="navbar navbar-dark bg-dark">
         <a className="navbar-brand" href="#">WE SOLVIN'</a>
-        Hi, {localStorage.getItem('username')}!
+        Hi, {props.user.username}!
       </nav>
     : 
     <nav className="navbar navbar-dark bg-dark">
