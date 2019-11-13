@@ -1,4 +1,6 @@
 import React from 'react';
+import Game from './Game';
+import Slider from 'react-slick';
 
 class Games extends React.Component {
     constructor(props){
@@ -23,7 +25,13 @@ class Games extends React.Component {
     }
 
     render(){
-        return (<h1>{this.state.games.map(game => {return game.puzzle_id})}</h1>);
+        return (
+            <div>
+                {/* <ul className="list-group list-group-flush" style={{width: '18rem', overflow: 'auto', height: '47rem'}}> */}
+                    {this.state.games.map(game => <Game game={game}/>)}
+                {/* </ul> */}
+            </div>
+        );
     }
 }
 

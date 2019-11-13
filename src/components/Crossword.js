@@ -1,6 +1,7 @@
 import React from 'react';
 import Boxes from './Boxes';
-import Clues from './Clues'
+import Clues from './Clues';
+import Games from './Games'
 
 class Crossword extends React.Component {
   constructor(props) {

@@ -10,6 +10,7 @@ class App extends React.Component {
   constructor(){
     super()
     this.state = {
+      users: [],
       auth: {},
       error: ''
     }
@@ -18,24 +19,27 @@ class App extends React.Component {
 
 
   componentDidMount(){
-    if(localStorage.getItem('username') && !this.state.auth.username){
-      let auth = {...this.state.auth}
-      auth.username = localStorage.getItem('username')
-      this.setState({auth})
+    console.log('in component did mouint')
+    
+      // let auth = {...this.state.auth}
+      // auth.username = localStorage.getItem('username')
+      // this.setState({auth})
       fetch('http://localhost:3000/users')
       .then(res => res.json())
       .then(data => {
+        this.setState({users:data})
         data.forEach(user => {
           if(user.username == localStorage.getItem('username')){
+            if(localStorage.getItem('username') && !this.state.auth.username){
             let auth = {...this.state.auth};
             auth.id = user.id;
             auth.username = user.username;
             auth.password = user.password;
             this.setState({auth})
+            }
           }
         })
       })
-    }
   }
 
   handleLogin(user, token){
@@ -48,11 +52,9 @@ class App extends React.Component {
   }
 
   handleLogout(){
-    console.log(this)
     this.setState({
       auth: {}
     })
-    console.log("LOG OUT")
     localStorage.clear()
   }
 
@@ -112,11 +114,11 @@ class App extends React.Component {
   }
 
   render(){
-    console.log(this.state.auth.username)
+    console.log(this.state.users)
     return (
       <div className="container">
         <Nav className="row" handleFormSubmit={this.handleFormSubmit} handleLogout={this.handleLogout} user={this.state.auth} error={this.state.error}/>
-        <Crosswords className="row" user={this.state.auth}/>
+        <Crosswords className="row" user={this.state.auth} users={this.state.users}/>
       </div>
     );
   }

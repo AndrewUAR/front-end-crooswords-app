@@ -136,7 +136,7 @@ class Crosswords extends React.Component {
             <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame}/> 
           </div>
           : 
-          <NewGame className="row" handleNewGame={this.handleNewGame}/> }
+          <NewGame className="row" handleNewGame={this.handleNewGame} users={this.props.users}/> }
       </div>
     )
   }
