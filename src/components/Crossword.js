@@ -17,10 +17,12 @@ class Crossword extends React.Component {
 
     let updatedGrid = this.state.grid.map(box => {
       if(box.id === boxx.id){
+        console.log({...box, value: input.toUpperCase()})
         return {
           ...box, value: input.toUpperCase()
         }
       }else{
+        console.log(box)
         return box
       }
     })

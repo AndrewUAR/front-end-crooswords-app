@@ -5,7 +5,6 @@ import Crosswords from './components/Crosswords'
 import Login from './components/Login'
 import Nav from './components/Nav'
 
-
 class App extends React.Component {
 
   state = {
@@ -18,13 +17,13 @@ class App extends React.Component {
       let auth = {...this.state.auth}
       auth.username = localStorage.getItem('username')
       this.setState({auth})
-
       fetch('http://localhost:3000/users')
       .then(res => res.json())
       .then(data => {
         data.forEach(user => {
           if(user.username == localStorage.getItem('username')){
             let auth = {...this.state.auth};
+            auth.id = user.id;
             auth.username = user.username;
             auth.password = user.password;
             this.setState({auth})
@@ -105,7 +104,7 @@ class App extends React.Component {
     return (
       <div className="container">
         <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth} error={this.state.error}/>
-        <Crosswords className="row" user={localStorage.getItem('username')}/>
+        <Crosswords className="row" user={this.state.auth}/>
       </div>
     );
   }

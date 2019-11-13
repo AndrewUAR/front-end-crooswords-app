@@ -1,11 +1,15 @@
 import React from 'react';
 import Crossword from './Crossword';
-import NewGame from './NewGame'
+import NewGame from './NewGame';
+import Games from './Games';
 
 class Crosswords extends React.Component {
-  state = {
-    puzzles : [],
-    puzzle: []
+  constructor(props){
+    super(props)
+    this.state = {
+      puzzles : [],
+      puzzle: []
+    }
   }
 
   componentDidMount() {
@@ -107,7 +111,6 @@ class Crosswords extends React.Component {
   }
 
   handleNewGame = () => {
-    console.log(this.props.user)
     const newGame = this.state.puzzles[Math.floor(Math.random() * this.state.puzzles.length)]
     this.createGrid(newGame)
     fetch('http://localhost:3000/games', {
@@ -116,7 +119,7 @@ class Crosswords extends React.Component {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            username: this.props.user,
+            username: this.props.user.username,
             puzzle: newGame.id
           })
         })
@@ -128,7 +131,11 @@ class Crosswords extends React.Component {
     return (
       <div className="row">
         {Object.keys(this.state.puzzle).length ?
-          <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame}/> : 
+          <div>
+            <Games user={this.props.user}/>
+            <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame}/> 
+          </div>
+          : 
           <NewGame className="row" handleNewGame={this.handleNewGame}/> }
       </div>
     )
