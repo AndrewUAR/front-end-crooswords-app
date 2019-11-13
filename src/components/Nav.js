@@ -8,6 +8,7 @@ const Nav = props => {
         <nav className="navbar navbar-dark bg-dark">
         <a className="navbar-brand" href="#">WE SOLVIN'</a>
         Hi, {props.user.username}!
+        <button className="btn btn-info" onClick={props.handleLogout}>Log Out</button>
       </nav>
     : 
     <nav className="navbar navbar-dark bg-dark">

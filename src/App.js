@@ -7,10 +7,15 @@ import Nav from './components/Nav'
 
 class App extends React.Component {
 
-  state = {
-    auth: {},
-    error: ''
+  constructor(){
+    super()
+    this.state = {
+      auth: {},
+      error: ''
+    }
+    this.handleLogout = this.handleLogout.bind(this)
   }
+
 
   componentDidMount(){
     if(localStorage.getItem('username') && !this.state.auth.username){
@@ -30,8 +35,6 @@ class App extends React.Component {
           }
         })
       })
-    } else {
-      console.log(this.state.auth)
     }
   }
 
@@ -42,6 +45,15 @@ class App extends React.Component {
     localStorage.setItem('username', user.username)
     localStorage.setItem('token', token)
     window.location.reload()
+  }
+
+  handleLogout(){
+    console.log(this)
+    this.setState({
+      auth: {}
+    })
+    console.log("LOG OUT")
+    localStorage.clear()
   }
 
   validateUser(username, password){
@@ -103,7 +115,7 @@ class App extends React.Component {
     console.log(this.state.auth.username)
     return (
       <div className="container">
-        <Nav className="row" handleFormSubmit={this.handleFormSubmit} user={this.state.auth} error={this.state.error}/>
+        <Nav className="row" handleFormSubmit={this.handleFormSubmit} handleLogout={this.handleLogout} user={this.state.auth} error={this.state.error}/>
         <Crosswords className="row" user={this.state.auth}/>
       </div>
     );
